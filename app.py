@@ -7,14 +7,13 @@ import urllib.parse
 # ==========================================
 URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRMqf84LupPoxeTv6HUpl-jlKcNggzROPpfE_wLpKdwzhnNEpHANPQwW9GIRf_DhCAHxDSO6kHcM1Yc/pub?output=csv"
 
-# ¡NÚMERO ACTUALIZADO!
 WHATSAPP_NUMERO = "5493496527659" 
 
 st.set_page_config(
     page_title="Backdoor - Hardware & Tecnologia",
-    page_icon="💻", # <--- Icono de Notebook
+    page_icon="💻",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded" # Fuerza a que los filtros inicien abiertos
 )
 
 # ==========================================
@@ -41,14 +40,14 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* 5. Estilo para la Info de Cabecera (Instagram/Servicios) */
+    /* 5. Estilo para la Info de Cabecera */
     .info-header {
         font-size: 1rem;
         margin-bottom: 20px;
         color: #cccccc;
     }
     .info-header a {
-        color: #4da6ff; /* Azulito tipo link moderno */
+        color: #4da6ff;
         text-decoration: none;
         font-weight: 500;
     }
@@ -90,10 +89,10 @@ st.markdown("""
         background-color: #000000; color: #ffffff; border-color: #ffffff; transform: scale(1.02);
     }
 
-    /* 9. Limpieza */
+    /* 9. Limpieza (CORREGIDO: Ya no ocultamos el header para no perder la flecha) */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
+    /* header {visibility: hidden;} <-- Eliminado para recuperar el botón de filtros */
     </style>
 """, unsafe_allow_html=True)
 
@@ -141,7 +140,6 @@ def main():
     # --- TÍTULO Y CABECERA ---
     st.title("Backdoor - Hardware & Tecnologia")
     
-    # Bloque de Info de Contacto y Servicios
     st.markdown("""
         <div class="info-header">
             📸 Instagram: <a href="https://www.instagram.com/backdoor_tecnologia/" target="_blank">@backdoor_tecnologia</a> <br>
@@ -163,7 +161,7 @@ def main():
         st.info("⏳ Cargando catálogo...")
         return
 
-    # --- FILTROS ---
+    # --- FILTROS EN SIDEBAR ---
     st.sidebar.header("Filtros")
     lista_cat = ["Todas"] + sorted(df['CATEGORÍA'].astype(str).unique().tolist())
     cat_sel = st.sidebar.selectbox("Categoría", lista_cat)
@@ -191,7 +189,7 @@ def main():
         mask_desc = df_filtrado['DESCRIPCIÓN'].astype(str).str.contains(busqueda, case=False, na=False)
         df_filtrado = df_filtrado[mask_nombre | mask_desc]
 
-    # --- GRILLA ---
+    # --- GRILLA DE PRODUCTOS ---
     st.write(f"Mostrando {len(df_filtrado)} productos")
     cols = st.columns(3)
     
